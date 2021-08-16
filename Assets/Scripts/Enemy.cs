@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private Transform enemyPos;
+    private Transform currLocation;
     public float points = 10;
     public float health = 1;
     public GameObject shot;
     public float fireRate = 0.9999f;
-    public Transform obs;
+
 
     void Start()
     {
-        enemyPos = GetComponent<Transform>();
+        currLocation = GetComponent<Transform>();
     }
 
     void Update()
@@ -22,14 +22,24 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject);
             PlayerScore.playerScore += points;
+            return;
         }
 
-        if (transform.position.y <= obs.position.y)
+        //if (Physics.Raycast(currLocation.position, Vector2.down, 10) )
+        //{
+        //    return;
+        //}
+
+        if (GameOver.playerHealth <= 0 )
         {
-            if (Random.value > fireRate)
-            {
-                Instantiate(shot, enemyPos.position, enemyPos.rotation);
-            }
+            return;
         }
+
+        if (Random.value > fireRate)
+        {
+            Instantiate(shot, currLocation.position, currLocation.rotation);
+        }
+
+
     }
 }

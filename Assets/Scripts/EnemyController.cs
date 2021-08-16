@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
-    private Transform enemyHolder;
+    private Transform holder;
     public float speed;
     public Text winText;
     public static float enemyHealth = 1;
@@ -14,19 +14,19 @@ public class EnemyController : MonoBehaviour
     {
         winText.enabled = false;
         InvokeRepeating("Moving", 0.1f, 0.3f);
-        enemyHolder = GetComponent<Transform>();
+        holder = GetComponent<Transform>();
     }
 
     private void Moving()
     {
-        enemyHolder.position += Vector3.right * speed;
+        holder.position += Vector3.right * speed;
 
-        foreach (Transform enemy in enemyHolder)
+        foreach (Transform enemy in holder)
         {
             if (enemy.position.x < -10 || enemy.position.x > 10)
             {
                 speed = -speed;
-                enemyHolder.position += Vector3.down * 0.5f;
+                holder.position += Vector3.down * 0.5f;
                 return;
             }
 
@@ -37,13 +37,13 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        if (enemyHolder.childCount == 1)
+        if (holder.childCount == 1)
         {
             CancelInvoke();
             InvokeRepeating("Moving", 0.1f, 0.25f);
         }
 
-        if (enemyHolder.childCount == 0)
+        if (holder.childCount == 0)
         {
             winText.enabled = true;
         }
